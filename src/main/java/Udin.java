@@ -15,32 +15,30 @@ public class Udin {
 
     private static void scan() {
         Scanner scanner = new Scanner(System.in);
-        String command = scanner.nextLine();
-        if (command.equals("bye")) {
-            Udin.bye();
-        } else if (command.equals("list")) {
-            Udin.list();
-            Udin.scan();
-        } else if (command.startsWith("mark ")) {
-            Udin.mark(Integer.parseInt(command.split(" ")[1]) - 1);
-            Udin.scan();
-        } else if (command.startsWith("unmark ")) {
-            Udin.unmark(Integer.parseInt(command.split(" ")[1]) - 1);
-            Udin.scan();
-        } else if (command.startsWith("todo ")) {
-            Udin.addToDo(command.substring(5));
-            Udin.scan();
-        } else if (command.startsWith("deadline ")) {
-            Udin.addDeadline(command);
-            Udin.scan();
-        } else if (command.startsWith("event ")) {
-            Udin.addEvent(command);
-            Udin.scan();
-        } else {
-            Udin.misc(command);
-            Udin.scan();
+        while (scanner.hasNextLine()) {  // avoid crash when input ends
+            String command = scanner.nextLine();
+
+            if (command.equals("bye")) {
+                Udin.bye();
+                break;
+            } else if (command.equals("list")) {
+                Udin.list();
+            } else if (command.startsWith("mark ")) {
+                Udin.mark(Integer.parseInt(command.split(" ")[1]) - 1);
+            } else if (command.startsWith("unmark ")) {
+                Udin.unmark(Integer.parseInt(command.split(" ")[1]) - 1);
+            } else if (command.startsWith("todo ")) {
+                Udin.addToDo(command.substring(5));
+            } else if (command.startsWith("deadline ")) {
+                Udin.addDeadline(command);
+            } else if (command.startsWith("event ")) {
+                Udin.addEvent(command);
+            } else {
+                Udin.misc(command);
+            }
         }
 
+        scanner.close();
     }
 
     private static void misc(String command) {
