@@ -42,7 +42,7 @@ public class Udin {
     }
 
     private static void misc(String command) {
-        System.out.println(Udin.line + " Unrecognized command: " + command + "\n" + Udin.line);
+        System.out.println(Udin.line + " Invalid input: " + command + "\n" + Udin.line);
     }
 
     private static void bye() {
@@ -50,29 +50,42 @@ public class Udin {
     }
 
     private static void addToDo(String desc) {
+        if (desc.isBlank()) {
+            System.out.println(line + " OOPS!!! The description of a todo cannot be empty.\n" + line);
+            return;
+        }
         Task t = new ToDo(desc);
-        Udin.todo.add(t);
+        todo.add(t);
         printAddMessage(t);
     }
 
     private static void addDeadline(String input) {
         String[] parts = input.substring(9).split("/by", 2);
+        if (parts.length < 2 || parts[0].isBlank() || parts[1].isBlank()) {
+            System.out.println(line + " OOPS!!! The description or /by date of a deadline cannot be empty.\n" + line);
+            return;
+        }
         String desc = parts[0].trim();
         String by = parts[1].trim();
         Task t = new Deadline(desc, by);
-        Udin.todo.add(t);
+        todo.add(t);
         printAddMessage(t);
     }
 
     private static void addEvent(String input) {
         String[] parts = input.substring(6).split("/from|/to");
+        if (parts.length < 3 || parts[0].isBlank() || parts[1].isBlank() || parts[2].isBlank()) {
+            System.out.println(line + " OOPS!!! The description or dates of an event cannot be empty.\n" + line);
+            return;
+        }
         String desc = parts[0].trim();
         String from = parts[1].trim();
         String to = parts[2].trim();
         Task t = new Event(desc, from, to);
-        Udin.todo.add(t);
+        todo.add(t);
         printAddMessage(t);
     }
+
 
     private static void printAddMessage(Task t) {
         System.out.println(line +
@@ -94,12 +107,21 @@ public class Udin {
     }
 
     private static void mark(int index) {
-        Udin.todo.get(index).mark();
-        System.out.println(Udin.line + "Good boy! This task is all done:\n" + Udin.todo.get(index).display() + "\n" + Udin.line);
+        if (index < 0 || index >= todo.size()) {
+            System.out.println(line + " OOPS!!! Invalid task number.\n" + line);
+            return;
+        }
+        todo.get(index).mark();
+        System.out.println(line + "Good boy! This task is all done:\n" + todo.get(index).display() + "\n" + line);
     }
 
     private static void unmark(int index) {
-        Udin.todo.get(index).unmark();
-        System.out.println(Udin.line + "This task was unmarked:\n" + Udin.todo.get(index).display() + "\n" + Udin.line);
+        if (index < 0 || index >= todo.size()) {
+            System.out.println(line + " OOPS!!! Invalid task number.\n" + line);
+            return;
+        }
+        todo.get(index).unmark();
+        System.out.println(line + "This task was unmarked:\n" + todo.get(index).display() + "\n" + line);
     }
+
 }
