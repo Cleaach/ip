@@ -33,6 +33,13 @@ public class Udin {
                 Udin.addDeadline(command);
             } else if (command.startsWith("event ")) {
                 Udin.addEvent(command);
+            } else if (command.startsWith("delete ")) {
+                try {
+                    int index = Integer.parseInt(command.split(" ")[1]) - 1;
+                    Udin.deleteTask(index);
+                } catch (NumberFormatException e) {
+                    System.out.println(line + " OOPS!!! Please provide a valid task number to delete.\n" + line);
+                }
             } else {
                 Udin.misc(command);
             }
@@ -122,6 +129,20 @@ public class Udin {
         }
         todo.get(index).unmark();
         System.out.println(line + "This task was unmarked:\n" + todo.get(index).display() + "\n" + line);
+    }
+
+    private static void deleteTask(int index) {
+        if (index < 0 || index >= todo.size()) {
+            System.out.println(line + " OOPS!!! Invalid task number.\n" + line);
+            return;
+        }
+
+        Task removed = todo.remove(index);
+        System.out.println(line +
+                " Noted. I've removed this task:\n   " +
+                removed.display() +
+                "\n Now you have " + todo.size() + " tasks in the list.\n" +
+                line);
     }
 
 }
