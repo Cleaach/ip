@@ -1,17 +1,63 @@
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.io.File;
 
 public class Udin {
     private static final String line = "____________________________________________________________\n";
     private static ArrayList<Task> todo = new ArrayList<>();
 
     public static void main(String[] args) {
-        System.out.println(Udin.line +
-                " Hello! I'm Udin!\n" +
-                " What can I do for you?\n" +
-                Udin.line);
+        System.out.println(Udin.line + " Hello! I'm Udin!\n Let me load up your saved tasks...");
+        SavedTasksFile f = new SavedTasksFile("data/tasks.txt");
+        if (!f.exists()) {
+            System.out.println(" Error: saved tasks file not present! Exiting...\n" + Udin.line);
+            return;
+        }
+
+        if (!f.isCorrectlyFormatted()) {
+            System.out.println(" Error: saved tasks file is incorrectly formatted! Exiting...\n" + Udin.line);
+            return;
+        }
+
+        loadTasksFromFile(f);
+
+        System.out.println(" Load successful. What can I help you with?\n" + Udin.line);
         Udin.scan();
     }
+
+    private static void loadTasksFromFile(SavedTasksFile f) {
+        try (Scanner sc = new Scanner(f)) {
+            while (sc.hasNextLine()) {
+                String line = sc.nextLine().trim();
+                if (line.isEmpty()) continue;
+
+                String[] parts = line.split(",", -1);
+                String type = parts[0];
+                boolean isDone = parts[1].equals("1");
+
+                Task t = null;
+                switch (type) {
+                    case "T":
+                        t = new ToDo(parts[2]);
+                        break;
+                    case "D":
+                        t = new Deadline(parts[2], parts[3]);
+                        break;
+                    case "E":
+                        t = new Event(parts[2], parts[3], parts[4]);
+                        break;
+                }
+
+                if (t != null) {
+                    if (isDone) t.mark();
+                    todo.add(t);
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(line + " Error while loading tasks: " + e.getMessage() + "\n" + line);
+        }
+    }
+
 
     private static void scan() {
         Scanner scanner = new Scanner(System.in);
@@ -49,7 +95,7 @@ public class Udin {
     }
 
     private static void misc(String command) {
-        System.out.println(Udin.line + " Invalid input: " + command + "\n" + Udin.line);
+        System.out.println(Udin.line + " Unrecognized command: " + command + "\n" + Udin.line);
     }
 
     private static void bye() {
