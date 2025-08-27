@@ -1,6 +1,6 @@
-public class Task {
-    private String title;
-    private boolean isDone;
+public abstract class Task {
+    protected String title;
+    protected boolean isDone;
 
     public Task(String title) {
         this.title = title;
@@ -22,4 +22,6 @@ public class Task {
     public String getTitle() {
         return this.title;
     }
+
+    public abstract String toSaveFormat();
 }

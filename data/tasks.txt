@@ -1,4 +1,0 @@
-T,1,read
-D,1,study,tomorrow
-E,0,lunch,noon,3pm
-D,0,prepare presentation for CS2103T,Wednesday, 27th August 2026, 3pm

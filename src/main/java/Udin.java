@@ -1,6 +1,7 @@
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.io.File;
 
 public class Udin {
     private static final String line = "____________________________________________________________\n";
@@ -14,12 +15,13 @@ public class Udin {
             return;
         }
 
-        if (!f.isCorrectlyFormatted()) {
-            System.out.println(" Error: saved tasks file is incorrectly formatted! Exiting...\n" + Udin.line);
+        try {
+            loadTasksFromFile(f);
+        } catch (Exception e) {
+            System.out.println(" Load unsuccessful: " + e.getMessage());
+            System.out.println(Udin.line);
             return;
         }
-
-        loadTasksFromFile(f);
 
         System.out.println(" Load successful. What can I help you with?\n" + Udin.line);
         Udin.scan();
@@ -99,6 +101,7 @@ public class Udin {
     }
 
     private static void bye() {
+        Udin.saveTasksToFile();
         System.out.println(Udin.line + " Bye!\n" + Udin.line);
     }
 
@@ -119,11 +122,16 @@ public class Udin {
             return;
         }
         String desc = parts[0].trim();
-        String by = parts[1].trim();
-        Task t = new Deadline(desc, by);
-        todo.add(t);
-        printAddMessage(t);
+        String by = parts[1].trim(); // must be yyyy-MM-dd HHmm
+        try {
+            Task t = new Deadline(desc, by);
+            todo.add(t);
+            printAddMessage(t);
+        } catch (Exception e) {
+            System.out.println(line + " OOPS!!! Please enter date as yyyy-MM-dd HHmm (e.g. 2019-12-02 1800).\n" + line);
+        }
     }
+
 
     private static void addEvent(String input) {
         String[] parts = input.substring(6).split("/from|/to");
@@ -134,9 +142,13 @@ public class Udin {
         String desc = parts[0].trim();
         String from = parts[1].trim();
         String to = parts[2].trim();
-        Task t = new Event(desc, from, to);
-        todo.add(t);
-        printAddMessage(t);
+        try {
+            Task t = new Event(desc, from, to);
+            todo.add(t);
+            printAddMessage(t);
+        } catch (Exception e) {
+            System.out.println(line + " OOPS!!! Please enter dates as yyyy-MM-dd HHmm (e.g. 2019-12-02 1800).\n" + line);
+        }
     }
 
 
@@ -190,5 +202,16 @@ public class Udin {
                 "\n Now you have " + todo.size() + " tasks in the list.\n" +
                 line);
     }
+
+    public static void saveTasksToFile() {
+        try (FileWriter fw = new FileWriter("data/tasks.txt")) {
+            for (Task t : todo) {
+                fw.write(t.toSaveFormat() + System.lineSeparator());
+            }
+        } catch (IOException e) {
+            System.out.println("Error saving tasks: " + e.getMessage());
+        }
+    }
+
 
 }
