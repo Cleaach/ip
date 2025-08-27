@@ -1,3 +1,5 @@
+package duke;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -17,7 +19,7 @@ public class Storage {
     public List<Task> load() throws IOException {
         File f = new File(filePath);
         if (!f.exists()) {
-            throw new FileNotFoundException("Storage file not found: " + filePath);
+            throw new FileNotFoundException("duke.Storage file not found: " + filePath);
         }
         List<Task> tasks = new ArrayList<>();
         try (Scanner sc = new Scanner(f)) {

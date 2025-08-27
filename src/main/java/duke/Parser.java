@@ -1,3 +1,5 @@
+package duke;
+
 public class Parser {
     public static boolean isList(String cmd) { return "list".equals(cmd); }
     public static boolean isBye(String cmd) { return "bye".equals(cmd); }

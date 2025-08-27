@@ -1,3 +1,5 @@
+package duke;
+
 import java.util.Scanner;
 
 public class Ui {
@@ -6,7 +8,7 @@ public class Ui {
 
     public void showWelcome() {
         System.out.println(LINE);
-        System.out.println(" Hello! I'm Udin!\n Let me load up your saved tasks...");
+        System.out.println(" Hello! I'm duke.Udin!\n Let me load up your saved tasks...");
     }
 
     public void showLoadSuccess() {
