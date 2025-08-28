@@ -1,4 +1,4 @@
-package duke;
+package udin;
 
 public class Parser {
     public static boolean isList(String cmd) { return "list".equals(cmd); }
@@ -14,16 +14,13 @@ public class Parser {
         return Integer.parseInt(cmd.split(" ")[1]) - 1;
     }
 
-    // return [desc, by]
     public static String[] parseDeadlineParts(String input) {
         String[] parts = input.substring(9).split("/by", 2);
         return new String[]{ parts[0].trim(), parts.length > 1 ? parts[1].trim() : "" };
     }
 
-    // return [desc, from, to]
     public static String[] parseEventParts(String input) {
         String[] parts = input.substring(6).split("/from|/to");
-        // parts[0]=desc, parts[1]=from, parts[2]=to
         for (int i = 0; i < parts.length; i++) parts[i] = parts[i].trim();
         return parts;
     }
