@@ -1,4 +1,4 @@
-package duke;
+package udin;
 
 import java.io.IOException;
 

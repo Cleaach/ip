@@ -1,4 +1,4 @@
-package duke;
+package udin;
 
 public abstract class Task {
     protected String title;
