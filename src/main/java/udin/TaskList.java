@@ -1,4 +1,4 @@
-package duke;
+package udin;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,4 +27,22 @@ public class TaskList {
     public List<Task> getAll() { return tasks; }
 
     public int size() { return tasks.size(); }
+
+    /**
+     * Returns a list of tasks whose title contains the specified keyword (case-insensitive).
+     *
+     * @param keyword the keyword to search for in task titles
+     * @return a list of tasks matching the keyword
+     */
+    public List<Task> findTasksByKeyword(String keyword) {
+        List<Task> results = new ArrayList<>();
+        String lowerKeyword = keyword.toLowerCase();
+        for (Task task : tasks) {
+            if (task.getTitle().toLowerCase().contains(lowerKeyword)) {
+                results.add(task);
+            }
+        }
+        return results;
+    }
+
 }

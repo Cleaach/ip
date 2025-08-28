@@ -1,4 +1,4 @@
-# duke.Udin User Guide
+# udin.Udin User Guide
 
 // Update the title above to match the actual product name
 

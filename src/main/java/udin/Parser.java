@@ -1,4 +1,4 @@
-package duke;
+package udin;
 
 public class Parser {
     public static boolean isList(String cmd) { return "list".equals(cmd); }
