@@ -50,6 +50,7 @@ public abstract class Task {
         this.isDone = true;
     }
 
+
     /**
      * Marks this task as not completed.
      */

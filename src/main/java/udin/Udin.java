@@ -1,6 +1,7 @@
 package udin;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * The main entry point and controller class for the Udin task manager application.
@@ -150,6 +151,14 @@ public class Udin {
                         }
                     } catch (NumberFormatException e) {
                         ui.showError("Please provide a valid task number to delete.");
+                    }
+                } else if (command.startsWith("find ")) {
+                    String keyword = command.substring(5).trim();
+                    if (keyword.isBlank()) {
+                        ui.showError("Please provide a keyword to find.");
+                    } else {
+                        List<Task> foundTasks = tasks.findTasksByKeyword(keyword);
+                        ui.showFoundTasks(foundTasks);
                     }
                 } else {
                     ui.showError("Unrecognized command: " + command);

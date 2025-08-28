@@ -59,7 +59,6 @@ public class Storage {
                         t = new Event(parts[2], parts[3], parts[4]);
                         break;
                     default:
-                        // ignore unknown lines
                 }
                 if (t != null) {
                     if (done) t.mark();

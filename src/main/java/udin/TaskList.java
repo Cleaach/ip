@@ -33,6 +33,23 @@ public class TaskList {
     }
 
     /**
+     * Returns a list of tasks whose title contains the specified keyword (case-insensitive).
+     *
+     * @param keyword the keyword to search for in task titles
+     * @return a list of tasks matching the keyword
+     */
+    public List<Task> findTasksByKeyword(String keyword) {
+        List<Task> results = new ArrayList<>();
+        String lowerKeyword = keyword.toLowerCase();
+        for (Task task : tasks) {
+            if (task.getTitle().toLowerCase().contains(lowerKeyword)) {
+                results.add(task);
+            }
+        }
+        return results;
+    }
+  
+    /**
      * Adds a task to the list.
      *
      * @param t the task to be added
