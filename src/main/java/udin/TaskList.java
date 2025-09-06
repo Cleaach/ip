@@ -106,4 +106,14 @@ public class TaskList {
      * @return the size of the task list
      */
     public int size() { return tasks.size(); }
+
+    public String show() {
+        String res = "";
+        res += "\n Your tasks:";
+        for (int i = 0; i < tasks.size(); i++) {
+            res += (" " + (i + 1) + "." + tasks.get(i).display() + "\n");
+        }
+        return res;
+    }
+
 }

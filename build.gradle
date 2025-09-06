@@ -28,7 +28,7 @@ test {
 }
 
 application {
-    mainClass.set("udin.Udin")
+    mainClass.set("udin.Launcher")
 }
 
 shadowJar {
