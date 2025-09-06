@@ -52,6 +52,8 @@ public class Udin {
             tmp = new TaskList();
         }
         tasks = tmp;
+
+        assert tasks != null : "TaskList should always be initialized";
     }
 
     /**
@@ -202,6 +204,7 @@ public class Udin {
                 return tasks.show();
             } else if (Parser.isMark(input)) {
                 int idx = Parser.parseIndex(input);
+                assert idx >= 0 && idx < tasks.size() : "Index should be within valid range";
                 if (idx < 0 || idx >= tasks.size()) {
                     return "Invalid task number.";
                 } else {
@@ -210,6 +213,7 @@ public class Udin {
                 }
             } else if (Parser.isUnmark(input)) {
                 int idx = Parser.parseIndex(input);
+                assert idx >= 0 && idx < tasks.size() : "Index should be within valid range";
                 if (idx < 0 || idx >= tasks.size()) {
                     return "Invalid task number.";
                 } else {
