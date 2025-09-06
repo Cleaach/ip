@@ -28,6 +28,8 @@ public class MainWindow extends AnchorPane {
     @FXML
     public void initialize() {
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
+
+        userInput.setFocusTraversable(false);
     }
 
     /** Injects the Duke instance */
