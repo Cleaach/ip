@@ -9,6 +9,7 @@ public class Parser {
     public static boolean isDeadline(String cmd) { return cmd.startsWith("deadline "); }
     public static boolean isEvent(String cmd) { return cmd.startsWith("event "); }
     public static boolean isDelete(String cmd) { return cmd.startsWith("delete "); }
+    public static boolean isHelp(String cmd) {return "help".equals(cmd); }
 
     public static int parseIndex(String cmd) {
         return Integer.parseInt(cmd.split(" ")[1]) - 1;

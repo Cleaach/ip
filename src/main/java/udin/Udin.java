@@ -18,6 +18,25 @@ import java.util.List;
  * </ul>
  */
 public class Udin {
+
+    /**
+     * Help page for new users.
+     */
+    private static final String HELP =
+            "Command list: \n" +
+                    "- list: List your tasks.\n" +
+                    "- bye: End the conversation with Udin, yours truly.\n" +
+                    "- mark <task number>: Mark a task as done.\n" +
+                    "- unmark <task number>: Mark a task as not done.\n" +
+                    "- todo <description>: Create a new to-do task with a description.\n" +
+                    "- deadline <description> <deadline>: Create a new deadline task with a description and a deadline.\n" +
+                    "- event <description> <from> <to>: Create a new event task with a start and end time.\n" +
+                    "- delete <task number>: Delete a task from the task list.\n" +
+                    "- help: Show this command list.\n" +
+                    "\n" +
+                    "All times (for deadline and event commands) must be\n" +
+                    "formatted as yyyy-mm-dd hhmm.";
+
     /**
      * Handles input/output with the user (e.g., displaying messages, errors, and reading commands).
      */
@@ -142,6 +161,8 @@ public class Udin {
                 } catch (NumberFormatException e) {
                     return "Please provide a valid task number to delete.";
                 }
+            } else if (Parser.isHelp(input)) {
+                return Udin.HELP;
             } else {
                 return "Unrecognized command: " + input;
             }
