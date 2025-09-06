@@ -34,7 +34,7 @@ public class Storage {
      * @return a list of tasks reconstructed from file
      * @throws IOException if file cannot be read
      */
-    public List<Task> load() throws IOException {
+    public List<Task> load() throws Exception {
         File f = new File(filePath);
         if (!f.exists()) {
             throw new FileNotFoundException("udin.Storage file not found: " + filePath);
@@ -59,6 +59,7 @@ public class Storage {
                         t = new Event(parts[2], parts[3], parts[4]);
                         break;
                     default:
+                        throw new Exception("Wrong format of task in udin.Storage");
                 }
                 if (t != null) {
                     if (done) t.mark();
