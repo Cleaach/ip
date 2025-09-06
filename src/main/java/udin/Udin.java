@@ -173,9 +173,97 @@ public class Udin {
     }
 
     /**
-     * Generates a response for the user's chat message.
+     * Generates a response for the user's chat message in JavaFX mode.
+     * <p>
+     * Behaves like one iteration of the CLI loop in {@link #run()}.
+     *
+     * @param input the user command
+     * @return the response string
      */
     public String getResponse(String input) {
-        return "Udin heard: " + input;
+        try {
+            if (Parser.isBye(input)) {
+                try {
+                    storage.save(tasks.getAll());
+                } catch (IOException e) {
+                    return "Error saving tasks: " + e.getMessage();
+                }
+                return "Bye. Hope to see you again soon!";
+            } else if (Parser.isList(input)) {
+                return tasks.show();
+            } else if (Parser.isMark(input)) {
+                int idx = Parser.parseIndex(input);
+                if (idx < 0 || idx >= tasks.size()) {
+                    return "Invalid task number.";
+                } else {
+                    tasks.mark(idx);
+                    return "Good boy! This task is all done:\n" + tasks.get(idx).display();
+                }
+            } else if (Parser.isUnmark(input)) {
+                int idx = Parser.parseIndex(input);
+                if (idx < 0 || idx >= tasks.size()) {
+                    return "Invalid task number.";
+                } else {
+                    tasks.unmark(idx);
+                    return "This task was unmarked:\n" + tasks.get(idx).display();
+                }
+            } else if (Parser.isTodo(input)) {
+                String desc = input.substring(5).trim();
+                if (desc.isBlank()) {
+                    return "The description of a todo cannot be empty.";
+                } else {
+                    Task t = new ToDo(desc);
+                    tasks.add(t);
+                    return "Got it. I've added this task:\n  " + t.display()
+                            + "\nNow you have " + tasks.size() + " tasks in the list.";
+                }
+            } else if (Parser.isDeadline(input)) {
+                String[] p = Parser.parseDeadlineParts(input);
+                if (p.length < 2 || p[0].isBlank() || p[1].isBlank()) {
+                    return "The description or /by date of a deadline cannot be empty.";
+                } else {
+                    try {
+                        Task t = new Deadline(p[0], p[1]);
+                        tasks.add(t);
+                        return "Got it. I've added this task:\n  " + t.display()
+                                + "\nNow you have " + tasks.size() + " tasks in the list.";
+                    } catch (Exception e) {
+                        return "Please enter date as yyyy-MM-dd HHmm (e.g. 2019-12-02 1800).";
+                    }
+                }
+            } else if (Parser.isEvent(input)) {
+                String[] p = Parser.parseEventParts(input);
+                if (p.length < 3 || p[0].isBlank() || p[1].isBlank() || p[2].isBlank()) {
+                    return "The description or dates of an event cannot be empty.";
+                } else {
+                    try {
+                        Task t = new Event(p[0], p[1], p[2]);
+                        tasks.add(t);
+                        return "Got it. I've added this task:\n  " + t.display()
+                                + "\nNow you have " + tasks.size() + " tasks in the list.";
+                    } catch (Exception e) {
+                        return "Please enter dates as yyyy-MM-dd HHmm (e.g. 2019-12-02 1800).";
+                    }
+                }
+            } else if (Parser.isDelete(input)) {
+                try {
+                    int idx = Parser.parseIndex(input);
+                    if (idx < 0 || idx >= tasks.size()) {
+                        return "Invalid task number.";
+                    } else {
+                        Task removed = tasks.remove(idx);
+                        return "Noted. I've removed this task:\n   " +
+                                removed.display() + "\nNow you have " + tasks.size() + " tasks in the list.";
+                    }
+                } catch (NumberFormatException e) {
+                    return "Please provide a valid task number to delete.";
+                }
+            } else {
+                return "Unrecognized command: " + input;
+            }
+        } catch (Exception e) {
+            return "An unexpected error occurred: " + e.getMessage();
+        }
     }
+
 }
