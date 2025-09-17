@@ -21,12 +21,14 @@ Udin is a personal task management application that helps you organize and track
 
 ### Running the Application
 
-#### Option 1: Command Line Interface (CLI)
+#### Option 1: From the JAR file
+Navigate to the same directory as the .jar file and execute in the terminal:
 ```bash
-./gradlew run
+java -jar "udin.jar"
 ```
 
-#### Option 2: Graphical User Interface (GUI)
+#### Option 2: From the source code
+Navigate to the root directory and execute in the terminal:
 ```bash
 ./gradlew run
 ```
