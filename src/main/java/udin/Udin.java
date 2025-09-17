@@ -1,6 +1,7 @@
 package udin;
 
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -69,7 +70,9 @@ public class Udin {
     */
    public Udin(String filePath) {
        ui = new Ui();
-       storage = new Storage(filePath);
+       // Resolve the file path to handle JAR execution
+       String resolvedPath = resolveFilePath(filePath);
+       storage = new Storage(resolvedPath);
        TaskList tmp;
        try {
            tmp = new TaskList(storage.load());
@@ -78,6 +81,60 @@ public class Udin {
            tmp = new TaskList();
        }
        tasks = tmp;
+   }
+   
+   /**
+    * Resolves the file path to work correctly both in development and JAR execution.
+    * 
+    * @param filePath the original file path
+    * @return the resolved file path
+    */
+   private String resolveFilePath(String filePath) {
+       // If it's already an absolute path, use it as-is
+       if (new File(filePath).isAbsolute()) {
+           return filePath;
+       }
+       
+       // For relative paths, try to resolve them relative to the JAR location or current directory
+       String currentDir = System.getProperty("user.dir");
+       String jarPath = getJarPath();
+       
+       // If we're running from a JAR, try to find the project root
+       if (jarPath != null) {
+           File jarFile = new File(jarPath);
+           File jarDir = jarFile.getParentFile();
+           
+           // Look for the project root by going up directories until we find the data folder
+           File current = jarDir;
+           while (current != null) {
+               File dataDir = new File(current, "data");
+               if (dataDir.exists() && dataDir.isDirectory()) {
+                   return new File(dataDir, new File(filePath).getName()).getAbsolutePath();
+               }
+               current = current.getParentFile();
+           }
+           
+           // If we can't find the data directory, create it next to the JAR
+           if (jarDir != null) {
+               return new File(jarDir, filePath).getAbsolutePath();
+           }
+       }
+       
+       // Fallback to current working directory
+       return new File(currentDir, filePath).getAbsolutePath();
+   }
+   
+   /**
+    * Gets the path to the JAR file if running from a JAR.
+    * 
+    * @return the JAR file path, or null if not running from a JAR
+    */
+   private String getJarPath() {
+       try {
+           return getClass().getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
+       } catch (Exception e) {
+           return null;
+       }
    }
 
 

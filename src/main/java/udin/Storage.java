@@ -36,8 +36,22 @@ public class Storage {
      */
     public List<Task> load() throws Exception {
         File f = new File(filePath);
+        
+        // If file doesn't exist and it's a relative path, try to create the directory structure
         if (!f.exists()) {
-            throw new FileNotFoundException("udin.Storage file not found: " + filePath);
+            // Check if it's a relative path and try to create the directory
+            if (!f.isAbsolute()) {
+                File parent = f.getParentFile();
+                if (parent != null && !parent.exists()) {
+                    parent.mkdirs();
+                }
+            }
+            
+            // If still doesn't exist, throw exception
+            if (!f.exists()) {
+                throw new FileNotFoundException("udin.Storage file not found: " + filePath + 
+                    " (Current working directory: " + System.getProperty("user.dir") + ")");
+            }
         }
         List<Task> tasks = new ArrayList<>();
         try (Scanner sc = new Scanner(f)) {
