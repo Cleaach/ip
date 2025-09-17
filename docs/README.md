@@ -2,7 +2,7 @@
 
 ![Udin Logo](docs/Ui.png)
 
-Udin is a personal task management application that helps you organize and track your daily tasks. It supports three types of tasks: todos, deadlines, and events, with both command-line and graphical user interfaces.
+Udin is a personal task management application that helps you organize and track your daily tasks. It supports three types of tasks: todos, deadlines, and events with a graphical user interface.
 
 ## Features
 
