@@ -24,6 +24,8 @@ public abstract class Task {
      * @param title the description or name of the task
      */
     public Task(String title) {
+        assert title != null : "Task title cannot be null";
+        assert !title.trim().isEmpty() : "Task title cannot be empty";
         this.title = title;
         this.isDone = false;
     }
@@ -40,6 +42,7 @@ public abstract class Task {
      * @return the formatted display string for this task
      */
     public String display() {
+        assert title != null : "Title should not be null when displaying";
         return (isDone ? "[X] " : "[ ] ") + this.getTitle();
     }
 

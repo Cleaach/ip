@@ -81,31 +81,30 @@ public class Udin {
    }
 
 
-   /**
-    * Runs the interactive command loop for the Udin application.
-    * <p>
-    * The loop continues until the user issues a "bye" command.
-    * Commands are processed by delegating to the Parser class for execution.
-    * Input errors and unexpected exceptions are caught and displayed to the user.
-    */
-   public void run() {
-       ui.showWelcome();
-       ui.showLoadSuccess();
+    /**
+     * Runs the interactive command loop for the Udin application.
+     * <p>
+     * The loop continues until the user issues a "bye" command.
+     * Commands are processed by delegating to the Parser class for execution.
+     * Input errors and unexpected exceptions are caught and displayed to the user.
+     */
+    public void run() {
+        ui.showWelcome();
+        ui.showLoadSuccess();
 
+        while (true) {
+            String command = ui.readCommand();
+            if (command == null) break;
 
-       while (true) {
-           String command = ui.readCommand();
-           if (command == null) break;
-
-
-           if (Parser.isBye(command)) {
-               Parser.executeCommandWithUi(command, tasks, storage, ui);
-               break;
-           } else {
-               Parser.executeCommandWithUi(command, tasks, storage, ui);
-           }
-       }
-   }
+            if (Parser.isBye(command)) {
+                Parser.executeCommand(command, tasks, storage);
+                break;
+            } else {
+                String response = Parser.executeCommand(command, tasks, storage);
+                ui.showMessage(response);
+            }
+        }
+    }
 
 
    /**

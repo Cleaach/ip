@@ -18,8 +18,8 @@ public class Deadline extends Task{
      * Constructor for Deadline class
      *
      * @param title a string to describe the task
-     * @param deadline a string for the deadline
-     * @return a Deadline object
+     * @param deadline a string for the deadline in yyyy-MM-dd HHmm format
+     * @throws DateTimeParseException if the deadline format is invalid
      */
     public Deadline(String title, String deadline) {
         super(title);
@@ -43,6 +43,6 @@ public class Deadline extends Task{
      */
     @Override
     public String toSaveFormat() {
-        return "D," + (isDone ? "1" : "0") + "," + title + "," + deadline.toString();
+        return "D," + (isDone ? "1" : "0") + "," + title + "," + deadline.format(INPUT_FORMAT);
     }
 }

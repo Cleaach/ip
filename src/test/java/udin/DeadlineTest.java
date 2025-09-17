@@ -16,9 +16,9 @@ public class DeadlineTest {
 
     @Test
     public void toSaveFormatTest() {
-        assertEquals("D,0,test,2000-12-12T18:00", deadline.toSaveFormat());
+        assertEquals("D,0,test,2000-12-12 1800", deadline.toSaveFormat());
         deadline.mark();
-        assertEquals("D,1,test,2000-12-12T18:00", deadline.toSaveFormat());
+        assertEquals("D,1,test,2000-12-12 1800", deadline.toSaveFormat());
         deadline.unmark();
     }
 }

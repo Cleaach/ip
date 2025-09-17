@@ -20,9 +20,9 @@ public class Event extends Task {
      * Constructor for Event class
      *
      * @param desc a string to describe the task
-     * @param from a string for the start time
-     * @param to a string for the end time
-     * @return a Event object
+     * @param from a string for the start time in yyyy-MM-dd HHmm format
+     * @param to a string for the end time in yyyy-MM-dd HHmm format
+     * @throws DateTimeParseException if the date format is invalid
      */
     public Event(String desc, String from, String to) {
         super(desc);
@@ -49,6 +49,6 @@ public class Event extends Task {
      */
     @Override
     public String toSaveFormat() {
-        return "E," + (isDone ? "1" : "0") + "," + title + "," + from.toString() + "," + to.toString();
+        return "E," + (isDone ? "1" : "0") + "," + title + "," + from.format(INPUT_FORMAT) + "," + to.format(INPUT_FORMAT);
     }
 }

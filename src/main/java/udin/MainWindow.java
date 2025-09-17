@@ -23,7 +23,7 @@ public class MainWindow extends AnchorPane {
     private Udin udin;
 
     private Image userImage = new Image(this.getClass().getResourceAsStream("/images/DaUser.png"));
-    private Image dukeImage = new Image(this.getClass().getResourceAsStream("/images/DaUdin.png"));
+    private Image udinImage = new Image(this.getClass().getResourceAsStream("/images/DaUdin.png"));
 
     @FXML
     public void initialize() {
@@ -32,13 +32,13 @@ public class MainWindow extends AnchorPane {
         userInput.setFocusTraversable(false);
     }
 
-    /** Injects the Duke instance */
-    public void setDuke(Udin d) {
+    /** Injects the Udin instance */
+    public void setUdin(Udin d) {
         udin = d;
     }
 
     /**
-     * Creates two dialog boxes, one echoing user input and the other containing Duke's reply and then appends them to
+     * Creates two dialog boxes, one echoing user input and the other containing Udin's reply and then appends them to
      * the dialog container. Clears the user input after processing.
      */
     @FXML
@@ -47,7 +47,7 @@ public class MainWindow extends AnchorPane {
         String response = udin.getResponse(input);
         dialogContainer.getChildren().addAll(
                 DialogBox.getUserDialog(input, userImage),
-                DialogBox.getDukeDialog(response, dukeImage)
+                DialogBox.getUdinDialog(response, udinImage)
         );
         userInput.clear();
     }
